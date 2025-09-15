@@ -3,7 +3,7 @@ tmp_dir = "storage/temp"
 
 [build]
   bin = "./storage/temp/main.exe"
-  cmd = "go build -o ./storage/temp/main.exe ."
+  cmd = "go build -o ./storage/temp/main.exe . && swag fmt"
   delay = 1000
   exclude_dir = ["storage", "database"]
   exclude_file = []

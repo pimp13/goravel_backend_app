@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"goravel_by_gin/app/models"
+
 	"github.com/goravel/framework/contracts/http"
+	"github.com/goravel/framework/facades"
 )
 
 type UserController struct {
@@ -18,8 +21,17 @@ func NewUserController() *UserController {
 // @Accept	json
 // @Router	/users [GET]
 func (r *UserController) Index(ctx http.Context) http.Response {
+	var users []models.User
+	if err := facades.Orm().Query().OrderByDesc("created_at").FindOrFail(&users); err != nil {
+		facades.Log().Errorf("failed to get all users error message is: %s", err.Error())
+		return ctx.Response().Json(http.StatusInternalServerError, http.Json{
+			"message": "failed to find all users",
+			"ok":      false,
+		})
+	}
 	return ctx.Response().Success().Json(http.Json{
-		"message": "Index",
+		"data": users,
+		"ok":   true,
 	})
 }
 
@@ -29,7 +41,7 @@ func (r *UserController) Index(ctx http.Context) http.Response {
 // @Router	/users/{id} [GET]
 func (r *UserController) Show(ctx http.Context) http.Response {
 	return ctx.Response().Success().Json(http.Json{
-		"Hello": "Show",
+		"Hello": "Show " + ctx.Request().Route("id"),
 	})
 }
 
@@ -37,13 +49,12 @@ func (r *UserController) Show(ctx http.Context) http.Response {
 // @Accept	json
 // @Param	id		path	int						true	"USER ID"
 // @Param	request	body	requests.UserRequest	true	"request body"
-// @Router	/users [PUT]
+// @Router	/users/{id} [PUT]
 func (r *UserController) Update(ctx http.Context) http.Response {
 	return ctx.Response().Success().Json(http.Json{
 		"message": "Update",
 	})
 }
-
 
 // @Tags	User
 // @Accept	json
@@ -57,8 +68,8 @@ func (r *UserController) Store(ctx http.Context) http.Response {
 
 // @Tags	User
 // @Accept	json
-// @Param	id		path	int						true	"USER ID"
-// @Router	/users [DELETE]
+// @Param	id	path	int	true	"USER ID"
+// @Router	/users/{id} [DELETE]
 func (r *UserController) Destroy(ctx http.Context) http.Response {
 	return ctx.Response().Success().Json(http.Json{
 		"message": "Destroy",

@@ -45,6 +45,46 @@ const docTemplate = `{
                 ],
                 "responses": {}
             },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.UserRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "USER ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
             "put": {
                 "consumes": [
                     "application/json"
@@ -73,26 +113,6 @@ const docTemplate = `{
                 "responses": {}
             },
             "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "USER ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/users/{id}": {
-            "get": {
                 "consumes": [
                     "application/json"
                 ],
