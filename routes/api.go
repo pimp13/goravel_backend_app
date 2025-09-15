@@ -7,6 +7,15 @@ import (
 )
 
 func Api() {
-	userController := controllers.NewUserController()
-	facades.Route().Resource("/users", userController)
+
+	facades.Route().Resource(
+		"/users",
+		controllers.NewUserController(),
+	)
+
+	facades.Route().Resource(
+		"/category",
+		controllers.NewCategoryController(),
+	)
+
 }

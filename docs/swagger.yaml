@@ -1,4 +1,9 @@
 definitions:
+  requests.CategoryRequest:
+    properties:
+      name:
+        type: string
+    type: object
   requests.UserRequest:
     properties:
       email:
@@ -11,6 +16,69 @@ definitions:
 info:
   contact: {}
 paths:
+  /category:
+    get:
+      consumes:
+      - application/json
+      responses: {}
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CategoryRequest'
+      responses: {}
+      tags:
+      - Category
+  /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      tags:
+      - Category
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      tags:
+      - Category
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CategoryRequest'
+      responses: {}
+      tags:
+      - Category
   /swagger:
     get:
       consumes:
