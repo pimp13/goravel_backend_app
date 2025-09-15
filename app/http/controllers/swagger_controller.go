@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/goravel/framework/contracts/http"
-	"github.com/swaggo/http-swagger/v2"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 
 	_ "goravel_by_gin/docs"
 )
@@ -41,13 +41,13 @@ func NewSwaggerController() *SwaggerController {
 
 // Index an example for Swagger
 //
-//	@Summary      Summary
-//	@Description  Description
-//	@Tags         example
-//	@Accept       json
-//	@Success      200
-//	@Failure      400
-//	@Router       /swagger [get]
+//	@Summary		Summary
+//	@Description	Description
+//	@Tags			example
+//	@Accept			json
+//	@Success		200
+//	@Failure		400
+//	@Router			/swagger [get]
 func (r *SwaggerController) Index(ctx http.Context) http.Response {
 	handler := httpSwagger.Handler()
 	handler(ctx.Response().Writer(), ctx.Request().Origin())

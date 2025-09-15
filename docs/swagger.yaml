@@ -1,3 +1,13 @@
+definitions:
+  requests.UserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -14,4 +24,54 @@ paths:
       summary: Summary
       tags:
       - example
+  /users:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: USER ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      responses: {}
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: USER ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserRequest'
+      responses: {}
+      tags:
+      - User
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: USER ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      tags:
+      - User
 swagger: "2.0"
