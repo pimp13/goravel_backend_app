@@ -1,7 +1,13 @@
 definitions:
   requests.CategoryRequest:
     properties:
+      description:
+        type: string
+      is_active:
+        type: boolean
       name:
+        type: string
+      slug:
         type: string
     type: object
   requests.UserRequest:

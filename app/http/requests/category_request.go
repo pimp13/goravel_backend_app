@@ -6,7 +6,10 @@ import (
 )
 
 type CategoryRequest struct {
-	Name string `form:"name" json:"name"`
+	Name        string `json:"name" form:"name"`
+	Slug        string `json:"slug" form:"slug"`
+	IsActive    bool   `json:"is_active" form:"is_active"`
+	Description string `json:"description" form:"description"`
 }
 
 func (r *CategoryRequest) Authorize(ctx http.Context) error {
@@ -18,7 +21,12 @@ func (r *CategoryRequest) Filters(ctx http.Context) map[string]string {
 }
 
 func (r *CategoryRequest) Rules(ctx http.Context) map[string]string {
-	return map[string]string{}
+	return map[string]string{
+		"name":        "required|min_len:5|string|max_len:195",
+		"slug":        "required|min_len:3|string|max_len:175",
+		"description": "required|min_len:5|string",
+		"is_active":   "required|bool",
+	}
 }
 
 func (r *CategoryRequest) Messages(ctx http.Context) map[string]string {

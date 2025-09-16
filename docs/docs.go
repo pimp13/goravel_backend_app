@@ -232,7 +232,16 @@ const docTemplate = `{
         "requests.CategoryRequest": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
                 "name": {
+                    "type": "string"
+                },
+                "slug": {
                     "type": "string"
                 }
             }

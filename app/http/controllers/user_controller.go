@@ -88,7 +88,7 @@ func (r *UserController) Update(ctx http.Context) http.Response {
 		Email:    request.Email,
 		Password: request.Password,
 	}); err != nil {
-		facades.Log().Infof("failed to update user by #%v: %v\n", id, err)
+		facades.Log().Errorf("failed to update user by #%v: %v\n", id, err)
 		return ctx.Response().Json(http.StatusInternalServerError, http.Json{
 			"message": "Update error",
 			"ok":      false,
