@@ -1,6 +1,8 @@
 package models
 
-import "github.com/goravel/framework/database/orm"
+import (
+	"github.com/goravel/framework/database/orm"
+)
 
 type Category struct {
 	orm.Model
@@ -8,4 +10,6 @@ type Category struct {
 	IsActive    bool   `json:"is_active"`
 	Description string `json:"description"`
 	Slug        string `json:"slug"`
+
+	Posts []*Post `json:"posts,omitempty" gorm:"foreignKey:CategoryId"`
 }

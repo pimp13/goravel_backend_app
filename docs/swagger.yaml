@@ -1,5 +1,24 @@
+basePath: /api
 definitions:
   requests.CategoryRequest:
+    properties:
+      description:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  requests.ChangeStatusCategoryDto:
+    properties:
+      is_active:
+        type: string
+    type: object
+  requests.PostRequest:
+    type: object
+  requests.UpdateCategoryRequest:
     properties:
       description:
         type: string
@@ -19,8 +38,21 @@ definitions:
       password:
         type: string
     type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
 paths:
   /category:
     get:
@@ -81,10 +113,92 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/requests.CategoryRequest'
+          $ref: '#/definitions/requests.UpdateCategoryRequest'
       responses: {}
       tags:
       - Category
+  /category/{id}/change-status:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.ChangeStatusCategoryDto'
+      responses: {}
+      tags:
+      - Category
+  /post:
+    get:
+      consumes:
+      - application/json
+      responses: {}
+      tags:
+      - Post
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.PostRequest'
+      responses: {}
+      tags:
+      - Post
+  /post/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      tags:
+      - Post
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      tags:
+      - Post
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.PostRequest'
+      responses: {}
+      tags:
+      - Post
   /swagger:
     get:
       consumes:
@@ -161,4 +275,7 @@ paths:
       responses: {}
       tags:
       - User
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"

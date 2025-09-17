@@ -27,14 +27,13 @@ func (receiver *Unique) Passes(data validation.Data, val any, options ...any) bo
 		)
 		return false
 	}
-	// if isExists {
-	// 	return true
-	// }
-	// return false
-	return isExists
+	if isExists {
+		return false
+	}
+	return true
 }
 
 // Message Get the validation error message.
 func (receiver *Unique) Message() string {
-	return ":attribute has been taken."
+	return "the :attribute has been taken."
 }
