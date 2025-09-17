@@ -1,5 +1,21 @@
 basePath: /api
 definitions:
+  requests.AuthLoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  requests.AuthRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
   requests.CategoryRequest:
     properties:
       description:
@@ -54,6 +70,50 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /auth:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.AuthRequest'
+      responses: {}
+      tags:
+      - Auth
+  /auth/info:
+    get:
+      consumes:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.AuthLoginRequest'
+      responses: {}
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      responses: {}
+      tags:
+      - Auth
   /category:
     get:
       consumes:

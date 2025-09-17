@@ -37,5 +37,8 @@ func init() {
 		// This is not particularly recommended, so make sure you have appropriate
 		// systems in place to revoke the token if necessary.
 		"refresh_ttl": config.Env("JWT_REFRESH_TTL", 20160),
+
+		// jwt token name for cookie
+		"token_cookie": config.Env("JWT_COOKIE_NAME", "token"),
 	})
 }

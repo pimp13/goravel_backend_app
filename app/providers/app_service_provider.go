@@ -20,8 +20,13 @@ func (receiver *AppServiceProvider) Register(app foundation.Application) {
 		instance, err := app.Make("services.UploadService")
 		if err != nil {
 			log.Fatalf("failed to make services.UploadService: %v", err)
+			return nil, err
 		}
 		return services.NewPostService(facades.App().MakeOrm(), instance.(services.UploadService)), nil
+	})
+
+	app.Singleton("services.AuthService", func(app foundation.Application) (any, error) {
+		return services.NewAuthService(facades.App().MakeOrm()), nil
 	})
 }
 

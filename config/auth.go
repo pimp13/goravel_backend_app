@@ -29,8 +29,11 @@ func init() {
 		// Supported drivers: "jwt", "session"
 		"guards": map[string]any{
 			"user": map[string]any{
-				"driver":   "jwt",
-				"provider": "user",
+				"driver":      "jwt",
+				"ttl":         60 * 24,
+				"refresh_ttl": 60 * 24 * 7,
+				"secret":      config.Env("JWT_SECRET", ""),
+				"provider":    "user",
 			},
 		},
 
