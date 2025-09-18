@@ -106,10 +106,11 @@ func (s *postService) Create(
 		for _, tagName := range bodyData.Tags {
 			newTagName := strings.Split(tagName, ",")
 			for _, tname := range newTagName {
+				tagNameTrim := strings.Trim(tname, " ")
 				var tag models.Tag
-				if err := s.orm.Query().Where("name", tname).FirstOrCreate(&tag, models.Tag{
-					Name: tname,
-					Slug: tname,
+				if err := s.orm.Query().Where("name", tagNameTrim).FirstOrCreate(&tag, models.Tag{
+					Name: tagNameTrim,
+					Slug: tagNameTrim,
 				}); err != nil {
 					return err
 				}
