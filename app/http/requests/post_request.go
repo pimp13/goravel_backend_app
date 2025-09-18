@@ -1,20 +1,18 @@
 package requests
 
 import (
-	"github.com/goravel/framework/contracts/filesystem"
 	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/contracts/validation"
 )
 
 type PostRequest struct {
-	Title      string          `json:"title" form:"title"`
-	Summary    string          `json:"summary" form:"summary"`
-	Content    string          `json:"content" form:"content"`
-	IsActive   bool            `json:"is_active" form:"is_active"`
-	Slug       string          `json:"slug" form:"slug"`
-	Image      filesystem.File `json:"image_url" form:"image"`
-	UserId     uint            `json:"user_id" form:"user_id"`
-	CategoryId uint            `json:"category_id" form:"category_id"`
+	Title      string   `json:"title" form:"title"`
+	Summary    string   `json:"summary" form:"summary"`
+	Content    string   `json:"content" form:"content"`
+	IsActive   bool     `json:"is_active" form:"is_active"`
+	Slug       string   `json:"slug" form:"slug"`
+	CategoryId uint     `json:"category_id" form:"category_id"`
+	Tags       []string `json:"tags" form:"tags"`
 }
 
 func (r *PostRequest) Authorize(ctx http.Context) error {
@@ -32,9 +30,9 @@ func (r *PostRequest) Rules(ctx http.Context) map[string]string {
 		"summary":     "string",
 		"content":     "required",
 		"image":       "required|image",
-		"user_id":     "required",
 		"category_id": "required",
 		"is_active":   "required|bool",
+		"tags.*":      "unique:tags,name",
 	}
 }
 

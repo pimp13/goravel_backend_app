@@ -15,22 +15,27 @@ func Api() {
 
 	facades.Route().Prefix("/api").Group(func(router route.Router) {
 
-		//* users service
-		userController := controllers.NewUserController()
-		router.Resource("/users", userController)
+		// Secret routes
+		router.Middleware(middleware.AuthMiddleware()).Group(func(router route.Router) {
 
-		//* category service
-		categoryController := controllers.NewCategoryController()
-		router.Resource("/category", categoryController)
-		router.Patch("/category/{id}/change-status", categoryController.ChnageStatus)
+			//* users service
+			userController := controllers.NewUserController()
+			router.Resource("/users", userController)
 
-		//* post service
-		postService, err := facades.App().Make("services.PostService")
-		if err != nil {
-			log.Fatalf("Failed to make post service: %v", err)
-		}
-		postController := controllers.NewPostController(postService.(services.PostService))
-		router.Resource("/post", postController)
+			//* category service
+			categoryController := controllers.NewCategoryController()
+			router.Resource("/category", categoryController)
+			router.Patch("/category/{id}/change-status", categoryController.ChnageStatus)
+
+			//* post service
+			postService, err := facades.App().Make("services.PostService")
+			if err != nil {
+				log.Fatalf("Failed to make post service: %v", err)
+			}
+			postController := controllers.NewPostController(postService.(services.PostService))
+			router.Resource("/post", postController)
+
+		})
 
 		//* auth service
 		authService, _ := facades.App().Make("services.AuthService")

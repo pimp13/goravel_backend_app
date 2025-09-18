@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/goravel/framework/contracts/http"
+	"github.com/goravel/framework/facades"
 )
 
 type PostController struct {
@@ -20,9 +21,10 @@ func NewPostController(postService services.PostService) *PostController {
 	}
 }
 
-// @Tags	Post
-// @Accept	json
-// @Router	/post [GET]
+// @Tags		Post
+// @Accept		json
+// @Router		/post [GET]
+// @Security	ApiKeyAuth
 func (r *PostController) Index(ctx http.Context) http.Response {
 	posts, err := r.postService.FindAll(ctx.Context())
 	if err != nil {
@@ -69,39 +71,33 @@ func (r *PostController) Show(ctx http.Context) http.Response {
 // @Router	/post [POST]
 // @Param	request	body	requests.PostRequest	true	"request body"
 func (r *PostController) Store(ctx http.Context) http.Response {
-	// validateErrs, err := ctx.Request().ValidateRequest(&bodyData)
-	// switch {
-	// case validateErrs != nil:
-	// 	return ctx.Response().Json(http.StatusBadRequest, http.Json{
-	// 		"message": "Validation body data is failed!",
-	// 		"ok":      false,
-	// 		"errors":  validateErrs.All(),
-	// 	})
-	// case err != nil:
-	// 	return ctx.Response().Json(http.StatusBadRequest, http.Json{
-	// 		"message": "Validation body data is failed!!",
-	// 		"ok":      false,
-	// 		"errors":  err,
-	// 	})
-	// }
-
 	var bodyData requests.PostRequest
-	if err := ctx.Request().Bind(&bodyData); err != nil {
+	vaidateErrs, err := ctx.Request().ValidateRequest(&bodyData)
+	if err != nil || vaidateErrs != nil {
 		return ctx.Response().Json(http.StatusBadRequest, http.Json{
-			"message": "failed to parse request body!",
+			"message": "validation is failed!",
 			"ok":      false,
+			"errors":  vaidateErrs.All(),
 		})
 	}
 
-	file, err := ctx.Request().File("image_url")
+	file, err := ctx.Request().File("image")
 	if err != nil {
 		return ctx.Response().Json(http.StatusBadRequest, http.Json{
 			"message": "image file is required",
 		})
 	}
-	bodyData.Image = file
 
-	if err := r.postService.Create(ctx.Context(), bodyData); err != nil {
+	key, err := facades.Auth(ctx).ID()
+	if err != nil {
+		return ctx.Response().Json(http.StatusBadRequest, http.Json{
+			"message": "failed to get current user!",
+			"ok":      false,
+		})
+	}
+	userId, _ := strconv.Atoi(key)
+
+	if err := r.postService.Create(ctx.Context(), bodyData, uint(userId), file); err != nil {
 		return ctx.Response().Json(http.StatusInternalServerError, http.Json{
 			"message": err.Error(),
 			"ok":      false,

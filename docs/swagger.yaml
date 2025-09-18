@@ -33,6 +33,23 @@ definitions:
         type: string
     type: object
   requests.PostRequest:
+    properties:
+      category_id:
+        type: integer
+      content:
+        type: string
+      is_active:
+        type: boolean
+      slug:
+        type: string
+      summary:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
     type: object
   requests.UpdateCategoryRequest:
     properties:
@@ -201,6 +218,8 @@ paths:
       consumes:
       - application/json
       responses: {}
+      security:
+      - ApiKeyAuth: []
       tags:
       - Post
     post:

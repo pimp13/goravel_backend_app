@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"goravel_by_gin/app/http/requests"
 	"goravel_by_gin/app/models"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/goravel/framework/contracts/database/orm"
+	"github.com/goravel/framework/contracts/filesystem"
 	"github.com/goravel/framework/facades"
 )
 
@@ -17,7 +19,7 @@ type PostService interface {
 
 	FindById(ctx context.Context, id uint) (*models.Post, error)
 
-	Create(ctx context.Context, bodyData requests.PostRequest) error
+	Create(ctx context.Context, bodyData requests.PostRequest, userId uint, file filesystem.File) error
 }
 
 type postService struct {
@@ -37,7 +39,12 @@ func (s *postService) FindAll(ctx context.Context) ([]models.Post, error) {
 	if err := s.orm.
 		Query().
 		With("Category").
+		// With("User", func(query orm.Query) orm.Query {
+		// 	return query.Where("is_active", true)
+		// }).
 		With("User").
+		With("Tags").
+		With("Comments").
 		OrderByDesc("created_at").
 		FindOrFail(&posts); err != nil {
 		facades.Log().Errorf("failed to get all posts error message is: %s", err.Error())
@@ -53,6 +60,8 @@ func (s *postService) FindById(ctx context.Context, id uint) (*models.Post, erro
 		Query().
 		With("Category").
 		With("User").
+		With("Tags").
+		With("Comments").
 		Where("id", id).
 		FirstOrFail(&post); err != nil {
 		facades.Log().Errorf("Failed to get post by #%v error message is: %v", id, err)
@@ -62,23 +71,56 @@ func (s *postService) FindById(ctx context.Context, id uint) (*models.Post, erro
 	return &post, nil
 }
 
-func (s *postService) Create(ctx context.Context, bodyData requests.PostRequest) error {
+func (s *postService) Create(
+	ctx context.Context,
+	bodyData requests.PostRequest,
+	userId uint,
+	file filesystem.File,
+) error {
 	imageName := fmt.Sprintf("%s_%d", uuid.NewString(), time.Now().Unix())
-	filename, err := bodyData.Image.StoreAs("storage/uploads", imageName)
+	filename, err := file.StoreAs("storage/uploads", imageName)
 	if err != nil {
 		return err
 	}
-	if err := s.orm.Query().Create(&models.Post{
+
+	post := &models.Post{
 		Title:      bodyData.Title,
 		Summary:    bodyData.Summary,
 		Content:    bodyData.Content,
 		IsActive:   bodyData.IsActive,
 		Slug:       bodyData.Slug,
 		ImageUrl:   facades.Storage().Url(filename),
-		UserId:     bodyData.UserId,
+		UserId:     userId,
 		CategoryId: bodyData.CategoryId,
-	}); err != nil {
-		return fmt.Errorf("failed to create a new category")
+	}
+	if err := s.orm.Query().Create(post); err != nil {
+		if err := facades.Storage().Delete(filename); err != nil {
+			return err
+		}
+		facades.Log().Errorf("failed to create new post: %v", err)
+		return fmt.Errorf("failed to create new post")
+	}
+
+	if len(bodyData.Tags) > 0 {
+		var tags []models.Tag
+		for _, tagName := range bodyData.Tags {
+			newTagName := strings.Split(tagName, ",")
+			for _, tname := range newTagName {
+				var tag models.Tag
+				if err := s.orm.Query().Where("name", tname).FirstOrCreate(&tag, models.Tag{
+					Name: tname,
+					Slug: tname,
+				}); err != nil {
+					return err
+				}
+				tags = append(tags, tag)
+			}
+		}
+
+		if err := s.orm.Query().Model(post).Association("Tags").Append(tags); err != nil {
+			return err
+		}
+
 	}
 	return nil
 }
