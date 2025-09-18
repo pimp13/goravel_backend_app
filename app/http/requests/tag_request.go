@@ -7,6 +7,7 @@ import (
 
 type TagRequest struct {
 	Name string `form:"name" json:"name"`
+	Slug string `form:"slug" json:"slug"`
 }
 
 func (r *TagRequest) Authorize(ctx http.Context) error {
