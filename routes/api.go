@@ -40,5 +40,11 @@ func Api() {
 		router.Post("/auth/logout", authController.Logout)
 		router.Middleware(middleware.AuthMiddleware()).Get("/auth/info", authController.Show)
 
+		//* V1 Routes
+		router.Prefix("/v1").Group(func(router route.Router) {
+			//* Admin Routes
+			Admin(router)
+		})
+
 	})
 }

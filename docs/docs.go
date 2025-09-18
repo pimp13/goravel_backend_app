@@ -431,6 +431,22 @@ const docTemplate = `{
                 ],
                 "responses": {}
             }
+        },
+        "/v1/admin/info": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "[Admin]"
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {

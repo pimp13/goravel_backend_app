@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"goravel_by_gin/app/enums"
 	"goravel_by_gin/app/http/requests"
 	"goravel_by_gin/app/models"
 
@@ -43,6 +44,8 @@ func (s *authService) Register(ctx context.Context, bodyData *requests.AuthReque
 		Name:     bodyData.Name,
 		Email:    bodyData.Email,
 		Password: hashed,
+		IsActive: true,
+		Role:     enums.RoleGuest,
 	}
 	if err := s.orm.Query().Create(user); err != nil {
 		facades.Log().Errorf("failed to register user error message: %v", err)

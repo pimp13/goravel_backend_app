@@ -13,6 +13,8 @@ type Post struct {
 	UserId     uint   `json:"user_id"`
 	CategoryId uint   `json:"category_id"`
 
-	Category *Category `json:"category,omitempty" gorm:"foreignKey:CategoryId"`
-	User     *User     `json:"user" gorm:"foreignKey:UserId"`
+	Category *Category  `json:"category,omitempty" gorm:"foreignKey:CategoryId"`
+	User     *User      `json:"user" gorm:"foreignKey:UserId"`
+	Comments []*Comment `json:"comments" gorm:"foreignKey:PostId"`
+	Tags     []*Tag     `gorm:"many2many:post_tag;foreignKey:ID;joinForeignKey:PostID;joinReferences:TagID"`
 }

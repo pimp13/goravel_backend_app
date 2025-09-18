@@ -335,6 +335,15 @@ paths:
       responses: {}
       tags:
       - User
+  /v1/admin/info:
+    get:
+      consumes:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - '[Admin]'
 securityDefinitions:
   BasicAuth:
     type: basic
