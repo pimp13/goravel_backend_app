@@ -22,6 +22,7 @@ func (r *M20250915134738CreateCategoriesTable) Up() error {
 			table.String("description").Nullable()
 			table.String("slug", 175)
 			table.Unique("slug")
+			table.Index("is_active")
 			table.TimestampsTz()
 		})
 	}

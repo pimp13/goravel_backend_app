@@ -21,6 +21,7 @@ func (r *M20250916110648CreatePostsTable) Up() error {
 			table.String("summary").Nullable()
 			table.Text("content")
 			table.Boolean("is_active").Default(false)
+			table.Boolean("is_selected").Default(false)
 			table.String("slug", 175)
 			table.String("image_url").Nullable()
 			table.UnsignedBigInteger("user_id")
@@ -31,6 +32,9 @@ func (r *M20250916110648CreatePostsTable) Up() error {
 			table.Foreign("user_id").References("id").On("users").CascadeOnDelete().CascadeOnUpdate()
 			table.Unique("slug")
 			table.Index("is_active")
+			table.Index("category_id")
+			table.Index("user_id")
+			table.Index("is_selected")
 		})
 	}
 

@@ -23,7 +23,11 @@ func NewUserController() *UserController {
 // @Router	/users [GET]
 func (r *UserController) Index(ctx http.Context) http.Response {
 	var users []models.User
-	if err := facades.Orm().Query().OrderByDesc("created_at").FindOrFail(&users); err != nil {
+	if err := facades.Orm().
+		Query().
+		With("Posts").
+		OrderByDesc("created_at").
+		FindOrFail(&users); err != nil {
 		facades.Log().Errorf("failed to get all users error message is: %s", err.Error())
 		return ctx.Response().Json(http.StatusNotFound, http.Json{
 			"message": "failed to find all users",
