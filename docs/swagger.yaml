@@ -51,6 +51,11 @@ definitions:
       title:
         type: string
     type: object
+  requests.TagRequest:
+    properties:
+      name:
+        type: string
+    type: object
   requests.UpdateCategoryRequest:
     properties:
       description:
@@ -291,6 +296,79 @@ paths:
       summary: Summary
       tags:
       - example
+  /tag:
+    get:
+      consumes:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - '[Tag]'
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.TagRequest'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - '[Tag]'
+  /tag/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - '[Tag]'
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - '[Tag]'
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.TagRequest'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - '[Tag]'
   /users:
     get:
       consumes:

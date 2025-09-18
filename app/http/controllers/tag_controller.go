@@ -36,38 +36,38 @@ func (r *TagController) Index(ctx http.Context) http.Response {
 	})
 }
 
-// @Tags	[Tag]
-// @Accept	json
-// @Param	id	path	uint	true	"Tag ID"
-// @Router	/tag/{id} [GET]
+// @Tags		[Tag]
+// @Accept		json
+// @Param		id	path	uint	true	"Tag ID"
+// @Router		/tag/{id} [GET]
 // @Security	ApiKeyAuth
 func (r *TagController) Show(ctx http.Context) http.Response {
 	return nil
 }
 
-// @Tags	[Tag]
-// @Accept	json
-// @Router	/tag [POST]
-// @Param	request	body	requests.TagRequest	true	"request body"
+// @Tags		[Tag]
+// @Accept		json
+// @Router		/tag [POST]
+// @Param		request	body	requests.TagRequest	true	"request body"
 // @Security	ApiKeyAuth
 func (r *TagController) Store(ctx http.Context) http.Response {
 	return nil
 }
 
-// @Tags	[Tag]
-// @Accept	json
-// @Param	id		path	uint					true	"Tag ID"
-// @Param	request	body	requests.TagRequest	true	"request body"
-// @Router	/tag/{id} [PUT]
+// @Tags		[Tag]
+// @Accept		json
+// @Param		id		path	uint				true	"Tag ID"
+// @Param		request	body	requests.TagRequest	true	"request body"
+// @Router		/tag/{id} [PUT]
 // @Security	ApiKeyAuth
 func (r *TagController) Update(ctx http.Context) http.Response {
 	return nil
 }
 
-// @Tags	[Tag]
-// @Accept	json
-// @Param	id	path	int	true	"Tag ID"
-// @Router	/tag/{id} [DELETE]
+// @Tags		[Tag]
+// @Accept		json
+// @Param		id	path	int	true	"Tag ID"
+// @Router		/tag/{id} [DELETE]
 // @Security	ApiKeyAuth
 func (r *TagController) Destroy(ctx http.Context) http.Response {
 	return nil
