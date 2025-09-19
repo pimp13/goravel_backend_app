@@ -660,6 +660,9 @@ const docTemplate = `{
             "properties": {
                 "name": {
                     "type": "string"
+                },
+                "slug": {
+                    "type": "string"
                 }
             }
         },

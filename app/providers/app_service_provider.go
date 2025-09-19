@@ -28,6 +28,10 @@ func (receiver *AppServiceProvider) Register(app foundation.Application) {
 	app.Singleton("services.AuthService", func(app foundation.Application) (any, error) {
 		return services.NewAuthService(facades.App().MakeOrm()), nil
 	})
+
+	app.Singleton("services.TagService", func(app foundation.Application) (any, error) {
+		return services.NewTagService(facades.App().MakeOrm()), nil
+	})
 }
 
 func (receiver *AppServiceProvider) Boot(app foundation.Application) {

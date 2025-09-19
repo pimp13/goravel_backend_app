@@ -55,6 +55,8 @@ definitions:
     properties:
       name:
         type: string
+      slug:
+        type: string
     type: object
   requests.UpdateCategoryRequest:
     properties:

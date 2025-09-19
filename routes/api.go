@@ -35,6 +35,9 @@ func Api() {
 			postController := controllers.NewPostController(postService.(services.PostService))
 			router.Resource("/post", postController)
 
+			tagService, _ := facades.App().Make("services.TagService")
+			tagController := controllers.NewTagController(tagService.(services.TagService))
+			router.Resource("/tag", tagController)
 		})
 
 		//* auth service

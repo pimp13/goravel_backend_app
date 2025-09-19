@@ -653,6 +653,9 @@
             "properties": {
                 "name": {
                     "type": "string"
+                },
+                "slug": {
+                    "type": "string"
                 }
             }
         },

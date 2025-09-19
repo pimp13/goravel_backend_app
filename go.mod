@@ -6,6 +6,7 @@ toolchain go1.24.5
 
 require (
 	github.com/gin-gonic/gin v1.10.1
+	github.com/google/uuid v1.6.0
 	github.com/goravel/framework v1.16.3
 	github.com/goravel/gin v1.4.0
 	github.com/goravel/postgres v1.4.1
@@ -88,7 +89,6 @@ require (
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/gomodule/redigo v2.0.0+incompatible // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.6 // indirect
 	github.com/googleapis/gax-go/v2 v2.15.0 // indirect
 	github.com/gookit/color v1.6.0 // indirect
